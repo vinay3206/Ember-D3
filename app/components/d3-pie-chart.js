@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     return Math.min(this.get('width'), this.get('height')) / 2;
   }),
 
-  setup: Ember.on('didInsertElement', function () {
+  didInsertElement() {
     this._super(... arguments);
 
     let color = this.get('colors.length') ?
@@ -43,6 +43,6 @@ export default Ember.Component.extend({
       .attr('d', arc)
       .attr('fill', (d) => {
         return color(Ember.get(d.data, this.get('labelAttr')));
-      })
-  })
+      });
+  }
 });

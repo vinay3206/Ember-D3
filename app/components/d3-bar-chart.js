@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   height: 25,
-  width: 320,
+  width: 360,
   tagName: 'svg',
   classNames: ['bar-chart'],
 
@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     var x = d3.scaleLinear()
       .domain([0, d3.max(this.get('chartData'))])
       .range([0, this.get('width')]);
+
     var chartCanvas = d3.select(this.$()[0])
       .attr("width", this.get('width'))
       .attr("height", this.get('height') * this.get('chartData').length);

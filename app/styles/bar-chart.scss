@@ -1,10 +1,15 @@
 .bar-chart {
-  rect {
-    fill: steelblue;
+  g {
+    rect {
+      fill: steelblue;
+    }
+    text {
+      fill: white;
+      font: 10px sans-serif;
+      text-anchor: end;
+    }
   }
-  text {
-    fill: white;
-    font: 10px sans-serif;
-    text-anchor: end;
+  :hover {
+    fill: brown;
   }
 }

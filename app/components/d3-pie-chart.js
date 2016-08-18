@@ -9,7 +9,8 @@ export default Ember.Component.extend({
   data: [],
   labelAttr: 'key',
   valueAttr: 'value',
-
+  donut: false,
+  donutWidth: 75,
   radius: Ember.computed('height', 'width', function () {
     return Math.min(this.get('width'), this.get('height')) / 2;
   }),
@@ -28,7 +29,8 @@ export default Ember.Component.extend({
     let chart = group.attr('transform',
       `translate(${this.get('width') / 2}, ${this.get('height') / 2})`);
 
-    let arc = d3.arc().innerRadius(0).outerRadius(this.get('radius'));
+    let innerRadius = this.get('donut') ? this.get('donutWidth') : 0;
+    let arc = d3.arc().innerRadius(innerRadius).outerRadius(this.get('radius'));
 
     let pie = d3.pie()
       .value((d) => {

@@ -11,6 +11,8 @@ export default Ember.Component.extend({
   valueAttr: 'value',
   donut: false,
   donutWidth: 75,
+  legendRectSize: 18,
+  legendSpacing: 4,
   radius: Ember.computed('height', 'width', function () {
     return Math.min(this.get('width'), this.get('height')) / 2;
   }),
@@ -46,5 +48,27 @@ export default Ember.Component.extend({
       .attr('fill', (d) => {
         return color(Ember.get(d.data, this.get('labelAttr')));
       });
+
+    let legend = chart.selectAll('legend')
+      .data(color.domain())
+      .enter()
+      .append('g')
+      .atr('class','legend')
+      .attr('transform',(d,i) => {
+        let height = this.get('legendRectSize') + this.get('legendSpacing');
+        let offset = height * color.domain().length / 2;
+        var horz = -2 * this.get('legendRectSize');
+        var vert = i * height - offset ;
+        return `translate(${horz},${vert})`;
+      });
+    legend.append('rect')
+      .attr('width',this.get('legendRectSize'))
+      .attr('height',this.get('legendRectSize'))
+      .style('fill',color)
+      .style('stroke',color);
+    legend.append('text')
+      .attr('x',this.get('legendRectSize') + this.get('legendSpacing'))
+      .attr('y',this.get('legendRectSize') - this.get('legendSpacing'))
+      .text((d) => d);
   }
 });

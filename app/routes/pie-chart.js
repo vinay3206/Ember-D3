@@ -9,7 +9,7 @@ export default Ember.Route.extend({
         {key: 'Cantaloupe', value: 30},
         {key: 'Dijkstra', value: 40}
       ],
-      // colors: ['#A60F2B', '#648C85', '#B3F2C9', '#528C18', '#C3F25C']
+      colors: ['#A60F2B', '#648C85', '#B3F2C9', '#528C18', '#C3F25C']
     });
   }
 });

@@ -1,15 +1,23 @@
 .bar-chart {
+  margin: 10px;
   g {
     rect {
-      fill: steelblue;
+      fill: #3f51b5;
+    }
+    rect:hover {
+      fill: #7986cb;
     }
     text {
-      fill: white;
-      font: 10px sans-serif;
+      fill: #FFFFFF;
+      font: 11px sans-serif;
       text-anchor: end;
+      opacity: 0.9;
     }
-  }
-  :hover {
-    fill: brown;
+    g {
+      text {
+        fill: black;
+        font: 9px sans-serif;
+      }
+    }
   }
 }

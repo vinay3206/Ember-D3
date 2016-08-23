@@ -1,21 +1,30 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  height: 25,
+  height: 24,
   width: 360,
   tagName: 'svg',
   classNames: ['bar-chart'],
+  chartData: [],
 
   didInsertElement(){
     this._super(... arguments);
     var _height = this.get('height');
-    var x = d3.scaleLinear()
+    var _totalItems = this.get('chartData').length;
+    var _itemsHeight = _height * (_totalItems);
+    var _totalHeight = _itemsHeight + (_height);
+
+    var xScale = d3.scaleLinear()
       .domain([0, d3.max(this.get('chartData'))])
       .range([0, this.get('width')]);
 
+    var yScale = d3.scaleLinear()
+      .domain([_totalItems, 0])
+      .range([0, _itemsHeight]);
+
     var chartCanvas = d3.select(this.$()[0])
-      .attr("width", this.get('width'))
-      .attr("height", this.get('height') * this.get('chartData').length);
+      .attr("width", this.get('width') + 24)
+      .attr("height", _totalHeight);
 
     var barChart = chartCanvas
       .selectAll('g')
@@ -23,21 +32,32 @@ export default Ember.Component.extend({
 
     var bar = barChart.enter().append('g')
       .attr("transform", function (d, i) {
-        return "translate(0," + i * _height + ")";
+        return "translate(24," + i * _height + ")";
       });
 
     bar.append("rect")
-      .attr("width", x)
-      .attr("height", this.get('height') - 1);
+      .attr("width", xScale)
+      .attr("height", this.get('height') - 0.2);
 
     bar.append("text")
       .attr("x", function (d) {
-        return x(d) - 3;
+        return xScale(d) - 3;
       })
       .attr("y", this.get('height') / 2)
       .attr("dy", ".30em")
       .text(function (d) {
         return d;
       });
+
+    var xAxis = d3.axisBottom(xScale).tickSize(5).tickPadding(1);
+    var yAxis = d3.axisLeft(yScale).tickSize(5).tickPadding(1);
+
+    chartCanvas.append('g')
+      .attr("transform", "translate(24," + (_itemsHeight) + ")")
+      .call(xAxis);
+
+    chartCanvas.append('g')
+      .attr("transform", "translate(24,0)")
+      .call(yAxis);
   }
 });

@@ -38,6 +38,7 @@
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "loader.js": "^4.0.1",
-    "ember-cli-sass" : "^5.5.1"
+    "ember-cli-sass" : "^5.5.1",
+    "d3-axis" :"1.0.3"
   }
 }

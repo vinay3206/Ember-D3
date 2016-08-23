@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   tagName: 'svg',
   classNames: ['bar-chart'],
   chartData: [],
+  thickness: 1,
+  showValues: false,
 
   didInsertElement(){
     this._super(... arguments);
@@ -19,8 +21,8 @@ export default Ember.Component.extend({
       .range([0, this.get('width')]);
 
     var yScale = d3.scaleLinear()
-      .domain([_totalItems, 0])
-      .range([0, _itemsHeight]);
+      .domain([_totalItems, 1])
+      .range([12, _itemsHeight - 12]);
 
     var chartCanvas = d3.select(this.$()[0])
       .attr("width", this.get('width') + 24)
@@ -37,20 +39,27 @@ export default Ember.Component.extend({
 
     bar.append("rect")
       .attr("width", xScale)
-      .attr("height", this.get('height') - 0.2);
+      .attr("height", this.get('height') * this.get('thickness') - 0.5);
 
-    bar.append("text")
-      .attr("x", function (d) {
-        return xScale(d) - 3;
-      })
-      .attr("y", this.get('height') / 2)
-      .attr("dy", ".30em")
-      .text(function (d) {
-        return d;
-      });
+    if (this.get('showValues')) {
+      bar.append("text")
+        .attr("x", function (d) {
+          return xScale(d) - 3;
+        })
+        .attr("y", this.get('height') / 2)
+        .attr("dy", ".30em")
+        .text(function (d) {
+          return d;
+        });
+    }
 
-    var xAxis = d3.axisBottom(xScale).tickSize(5).tickPadding(1);
-    var yAxis = d3.axisLeft(yScale).tickSize(5).tickPadding(1);
+    var xAxis = d3.axisBottom(xScale)
+      .tickSize(0)
+      .tickPadding(10);
+
+    var yAxis = d3.axisLeft(yScale)
+      .tickSize(0)
+      .tickPadding(10);
 
     chartCanvas.append('g')
       .attr("transform", "translate(24," + (_itemsHeight) + ")")
